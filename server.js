@@ -53,3 +53,5 @@ app.get('/', function(req, res) {
 app.listen(port, ip, function() {
   console.log('%s: Node server started on %s:%d ...', Date(Date.now()), ip, port);
 });
+
+module.exports = app;
