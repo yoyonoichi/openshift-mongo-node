@@ -6,6 +6,8 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = '';
 
+console.log(process.env);
+
 //var routes = require('./routes');
 var deepPopulate = require('mongoose-deep-populate');
 
@@ -50,8 +52,7 @@ app.get('/', function(req, res) {
   res.send('OpenShift Mongo Node');
 });
 
-app.listen(port, ip, function() {
-  console.log('%s: Node server started on %s:%d ...', Date(Date.now()), ip, port);
-});
+app.listen(port, ip);
+console.log('%s: Node server started on %s:%d ...', Date(Date.now()), ip, port);
 
 module.exports = app;
