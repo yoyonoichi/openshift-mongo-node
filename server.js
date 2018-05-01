@@ -38,14 +38,23 @@ var mongo = require('mongodb'),
 
 mongoose.connect(mongoURL);
 
-mongoose.connection.on('error', function() {
+var db = mongoose.connection;
+
+db.on('error', function() {
   
   console.log('error');
   
-}).on('open', function() {
+});
+
+db.on('open', function() {
   
   console.log('open');
   
+});
+
+app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.status(500).send('Something bad happened!');
 });
 
 app.get('/', function(req, res) {
