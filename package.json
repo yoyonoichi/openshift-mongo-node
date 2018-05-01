@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/app-test.js",
-    "start": "node server.js"
   },
   "repository": {
     "type": "git",
