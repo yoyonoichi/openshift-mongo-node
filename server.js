@@ -1,5 +1,9 @@
 var express = require('express'),
-    app = express();
+    app = express(),
+    morgan = require('morgan');
+
+app.engine('html', require('ejs').renderFile);
+app.use(morgan('combined'));
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
@@ -11,7 +15,7 @@ console.log(process.env);
 //var routes = require('./routes');
 var deepPopulate = require('mongoose-deep-populate');
 
-if(mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
+/*if(mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   var mongoSN = process.env.DATABASE_SERVICE_NAME.toUpperCase();
   
   var mongoHost = process.env[mongoSN + '_SERVICE_HOST'],
@@ -50,7 +54,7 @@ db.on('open', function() {
   
   console.log('open');
   
-});
+});*/
 
 app.use(function(err, req, res, next){
   console.error(err.stack);
@@ -58,7 +62,8 @@ app.use(function(err, req, res, next){
 });
 
 app.get('/', function(req, res) {
-  res.send('OpenShift Mongo Node');
+  //res.send('OpenShift Mongo Node');
+  res.render('index.html', {});
 });
 
 app.listen(port, ip);
