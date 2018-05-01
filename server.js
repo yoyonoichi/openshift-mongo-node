@@ -6,7 +6,7 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = '';
 
-var routes = require('./routes');
+//var routes = require('./routes');
 var deepPopulate = require('mongoose-deep-populate');
 
 if(mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
