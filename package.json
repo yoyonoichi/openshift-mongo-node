@@ -3,13 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "engine": {
+    "node": "*",
+    "npm": "*"
+  },
   "scripts": {
     "start": "node server.js",
     "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/app-test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yoyonoichi/openshift-mongo-node.git"
+    "url": "https://github.com/yoyonoichi/openshift-mongo-node.git"
   },
   "author": "",
   "license": "ISC",
