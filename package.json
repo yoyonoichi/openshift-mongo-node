@@ -1,7 +1,7 @@
 {
   "name": "openshift-mongo-node",
   "version": "1.0.0",
-  "description": "## Node version v9.8.0 tested - success",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/app-test.js",
@@ -21,9 +21,7 @@
     "express": "^4.16.3",
     "mongodb": "^3.0.7",
     "mongoose": "^5.0.16",
-    "mongoose-deep-populate": "^3.1.1"
-  },
-  "devDependencies": {
+    "mongoose-deep-populate": "^3.1.1",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "mocha": "^5.1.1"
