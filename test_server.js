@@ -1,52 +1,70 @@
-//  OpenShift sample Node application
 var express = require('express'),
-    app     = express(),
-    morgan  = require('morgan');
-    
-Object.assign=require('object-assign')
+    app = express(),
+    morgan = require('morgan');
 
 app.engine('html', require('ejs').renderFile);
-app.use(morgan('combined'))
-console.log(process.env);
+app.use(morgan('combined'));
+
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
-    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
+    ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
-    mongoURLLabel = "";
+    mongoURLLabel = '';
 
-if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
-  var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
-      mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
-      mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
-      mongoDatabase = process.env[mongoServiceName + '_DATABASE'],
-      mongoPassword = process.env[mongoServiceName + '_PASSWORD']
-      mongoUser = process.env[mongoServiceName + '_USER'];
+//console.log(process.env);
 
-  if (mongoHost && mongoPort && mongoDatabase) {
+//var routes = require('./routes');
+var deepPopulate = require('mongoose-deep-populate');
+
+if(mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
+  var mongoSN = process.env.DATABASE_SERVICE_NAME.toUpperCase();
+  
+  var mongoHost = process.env[mongoSN + '_SERVICE_HOST'],
+      mongoPort = process.env[mongoSN + '_SERVICE_PORT'],
+      mongoDatabase = process.env[mongoSN + '_DATABASE'],
+      mongoPass = process.env[mongoSN + '_PASSWORD'],
+      mongoUser = process.env[mongoSN + '_USER'];
+  
+  if(mongoHost && mongoPort && mongoDatabase) {
     mongoURLLabel = mongoURL = 'mongodb://';
-    if (mongoUser && mongoPassword) {
-      mongoURL += mongoUser + ':' + mongoPassword + '@';
+    
+    if(mongoUser && mongoPass) {
+      mongoURL += mongoUser + ':' + mongoPass + '@';
     }
-    // Provide UI label that excludes user id and pw
+    
     mongoURLLabel += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
-    mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
-
+    mongoURL += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
   }
 }
+
 var db = null,
-    dbDetails = new Object();
+    dbDetails = {};
 
 var initDb = function(callback) { 
+  
   if (mongoURL == null) return;
 
   var mongodb = require('mongodb');
   if (mongodb == null) return;
-                           
+  
+  /*var mongoose = require('mongoose'),
+      Schema = mongoose.Schema;
+  
+  mongoose.connect(mongoURL);
+  
+  var connection = mongoose.connection;
+  
+  connection.on('error', function() {
+    console.log('error');
+  });
+  connection.on('open', function() {
+    console.log('open');
+  });*/
+  
   mongodb.connect(mongoURL, function(err, conn) {
-    if (err) { //console.log('error', err.message, mongoURL);
+    if(err) {
       callback(err);
-      return;
     }
-
+    
     db = conn;
     dbDetails.databaseName = db.databaseName;
     dbDetails.url = mongoURLLabel;
@@ -56,57 +74,33 @@ var initDb = function(callback) {
   });
 };
 
-app.get('/test', function(req, res) {
-  res.send('show test');
-});
-
-app.get('/', function (req, res) {
-  // try to initialize the db on every request if it's not already
-  // initialized.
-  if (!db) {
-    initDb(function(err){});
-  }
-  if (db) {
-    var col = db.collection('counts');
-    // Create a document with request IP and current time of request
-    col.insert({ip: req.ip, date: Date.now()});
-    col.count(function(err, count){
-      if (err) {
-        console.log('Error running count. Message:\n'+err);
-      }
-      res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
-    });
-  } else {
-    res.render('index.html', { pageCountMessage : null});
-  }
-});
-
-app.get('/pagecount', function (req, res) {
-  // try to initialize the db on every request if it's not already
-  // initialized.
-  if (!db) {
-    initDb(function(err){});
-  }
-  if (db) {
-    db.collection('counts').count(function(err, count ){
-      res.send('{ pageCount: ' + count + '}');
-    });
-  } else {
-    res.send('{ pageCount: -1 }');
-  }
-});
-
-// error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
   res.status(500).send('Something bad happened!');
 });
 
-initDb(function(err){
-  console.log('Error connecting to Mongo. Message:\n'+err);
+app.get('/', function(req, res) {
+  if(!db) {
+    initDb(function(err) {
+      console.log(err);
+    });
+  }
+  
+  if(db) {
+    //res.send('OpenShift Mongo Node');
+    res.render('index.html', { pageCountMessage : null });
+  }
+});
+
+app.get('/pagecount', function (req, res) {
+  res.send('page count dammy');
+});
+
+initDb(function(err) {
+  console.log('MongoDB problem: ' + err);
 });
 
 app.listen(port, ip);
-console.log('Server running on http://%s:%s', ip, port);
+console.log('%s: Node server started on %s:%d ...', Date(Date.now()), ip, port);
 
-module.exports = app ;
+module.exports = app;
