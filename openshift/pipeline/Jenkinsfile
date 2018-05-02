@@ -1,6 +1,0 @@
-node('nodejs') {
-  stage 'build'
-  openshiftBuild(buildConfig: 'openshift-mongo-node', showBuildLogs: 'true')
-  stage 'deploy'
-  openshiftDeploy(deploymentConfig: 'openshift-mongo-node')
-}

@@ -1,9 +1,0 @@
-name: nodejs
-version: 0.1
-description: An example Node.js application with no database.
-keywords:
-- quickstart
-- nodejs
-home: https://access.redhat.com
-sources:
-- https://github.com/yoyonoichi/openshift-mongo-node
