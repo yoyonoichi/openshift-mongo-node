@@ -2,7 +2,7 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "nodejs-mongodb-example",
+    "name": "nodejs-mongodb-example-2",
     "annotations": {
       "openshift.io/display-name": "Node.js + MongoDB (Ephemeral)",
       "description": "An example Node.js application with a MongoDB database.",
@@ -17,8 +17,8 @@
   },
   "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.",
   "labels": {
-      "template": "nodejs-mongodb-example",
-      "app": "nodejs-mongodb-example"
+      "template": "nodejs-mongodb-example-2",
+      "app": "nodejs-mongodb-example-2"
   },
   "objects": [
     {
@@ -166,7 +166,7 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "nodejs-mongodb-example"
+                "nodejs-mongodb-example-2"
               ],
               "from": {
                 "kind": "ImageStreamTag",
@@ -192,7 +192,7 @@
           "spec": {
             "containers": [
               {
-                "name": "nodejs-mongodb-example",
+                "name": "nodejs-mongodb-example-2",
                 "image": " ",
                 "ports": [
                   {
@@ -423,7 +423,7 @@
       "displayName": "Name",
       "description": "The name assigned to all of the frontend objects defined in this template.",
       "required": true,
-      "value": "nodejs-mongodb-example"
+      "value": "nodejs-mongodb-example-2"
     },
     {
       "name": "NAMESPACE",

@@ -88,7 +88,9 @@ app.get('/', function(req, res) {
   
   if(db) {
     //res.send('OpenShift Mongo Node');
-    res.render('index.html', { pageCountMessage : null });
+    res.render('index.html', {});
+  } else {
+    res.send(200);
   }
 });
 

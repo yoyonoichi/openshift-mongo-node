@@ -2,7 +2,7 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "nodejs-mongo-persistent",
+    "name": "nodejs-mongo-persistent-2",
     "annotations": {
       "openshift.io/display-name": "Node.js + MongoDB",
       "description": "An example Node.js application with a MongoDB database.",
@@ -17,7 +17,7 @@
   },
   "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.",
   "labels": {
-    "template": "nodejs-mongo-persistent"
+    "template": "nodejs-mongo-persistent-2"
   },
   "objects": [
     {
@@ -165,7 +165,7 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "nodejs-mongo-persistent"
+                "nodejs-mongo-persistent-2"
               ],
               "from": {
                 "kind": "ImageStreamTag",
@@ -191,7 +191,7 @@
           "spec": {
             "containers": [
               {
-                "name": "nodejs-mongo-persistent",
+                "name": "nodejs-mongo-persistent-2",
                 "image": " ",
                 "ports": [
                   {
@@ -291,7 +291,7 @@
       "spec": {
         "ports": [
           {
-            "name": "mongodb",
+            "name": "mongodb2",
             "port": 27017,
             "targetPort": 27017
           }
@@ -321,7 +321,7 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "mongodb"
+                "mongodb2"
               ],
               "from": {
                 "kind": "ImageStreamTag",
@@ -348,7 +348,7 @@
           "spec": {
             "containers": [
               {
-                "name": "mongodb",
+                "name": "mongodb2",
                 "image": " ",
                 "ports": [
                   {
@@ -439,7 +439,7 @@
       "displayName": "Name",
       "description": "The name assigned to all of the frontend objects defined in this template.",
       "required": true,
-      "value": "nodejs-mongo-persistent"
+      "value": "nodejs-mongo-persistent-2"
     },
     {
       "name": "NAMESPACE",
@@ -510,7 +510,7 @@
       "name": "DATABASE_SERVICE_NAME",
       "displayName": "Database Service Name",
       "required": true,
-      "value": "mongodb"
+      "value": "mongodb2"
     },
     {
       "name": "DATABASE_USER",

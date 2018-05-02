@@ -2,7 +2,7 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "nodejs-example",
+    "name": "nodejs-example-2",
     "annotations": {
       "openshift.io/display-name": "Node.js",
       "description": "An example",
@@ -17,8 +17,8 @@
   },
   "message": "The following service(s) have been created in your project: ${NAME}.",
   "labels": {
-      "template": "nodejs-example",
-      "app": "nodejs-example"
+      "template": "nodejs-example-2",
+      "app": "nodejs-example-2"
   },
   "objects": [
     {
@@ -153,7 +153,7 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "nodejs-example"
+                "nodejs-example-2"
               ],
               "from": {
                 "kind": "ImageStreamTag",
@@ -179,7 +179,7 @@
           "spec": {
             "containers": [
               {
-                "name": "nodejs-example",
+                "name": "nodejs-example-2",
                 "image": " ",
                 "ports": [
                   {
@@ -222,7 +222,7 @@
       "displayName": "Name",
       "description": "The name assigned to all of the frontend objects defined in this template.",
       "required": true,
-      "value": "nodejs-example"
+      "value": "nodejs-example-2"
     },
     {
       "name": "NAMESPACE",
