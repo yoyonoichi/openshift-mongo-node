@@ -2,25 +2,7 @@
   "name": "openshift-mongo-node",
   "version": "1.0.0",
   "description": "",
-  "main": "test_server.js",
-  "engine": {
-    "node": "*",
-    "npm": "*"
-  },
-  "scripts": {
-    "start": "node test_server.js",
-    "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/app-test.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yoyonoichi/openshift-mongo-node.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/yoyonoichi/openshift-mongo-node/issues"
-  },
-  "homepage": "https://github.com/yoyonoichi/openshift-mongo-node#readme",
+  "main": "server.js",
   "dependencies": {
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
@@ -32,5 +14,23 @@
     "mongoose-deep-populate": "^3.1.1",
     "morgan": "^1.9.0",
     "object-assign": "^4.1.1"
-  }
+  },
+  "engine": {
+    "node": "*",
+    "npm": "*"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/app_test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoyonoichi/openshift-mongo-node.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/yoyonoichi/openshift-mongo-node/issues"
+  },
+  "homepage": ""
 }

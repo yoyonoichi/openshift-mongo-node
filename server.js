@@ -10,12 +10,12 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = '';
 
-console.log(process.env);
+//console.log(process.env);
 
 //var routes = require('./routes');
 var deepPopulate = require('mongoose-deep-populate');
 
-/*if(mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
+if(mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   var mongoSN = process.env.DATABASE_SERVICE_NAME.toUpperCase();
   
   var mongoHost = process.env[mongoSN + '_SERVICE_HOST'],
@@ -36,25 +36,43 @@ var deepPopulate = require('mongoose-deep-populate');
   }
 }
 
-var mongo = require('mongodb'), 
-    mongoose = require('mongoose'), 
-    Scheme = mongoose.Schema;
+var db = null,
+    dbDetails = {};
 
-mongoose.connect(mongoURL);
+var initDb = function(callback) { 
+  
+  if (mongoURL == null) return;
 
-var db = mongoose.connection;
+  var mongodb = require('mongodb');
+  if (mongodb == null) return;
+  
+  /*var mongoose = require('mongoose'),
+      Schema = mongoose.Schema;
+  
+  mongoose.connect(mongoURL);
+  
+  var connection = mongoose.connection;
+  
+  connection.on('error', function() {
+    console.log('error');
+  });
+  connection.on('open', function() {
+    console.log('open');
+  });*/
+  
+  mongodb.connect(mongoURL, function(err, conn) {
+    if(err) {
+      callback(err);
+    }
+    
+    db = conn;
+    dbDetails.databaseName = db.databaseName;
+    dbDetails.url = mongoURLLabel;
+    dbDetails.type = 'MongoDB';
 
-db.on('error', function() {
-  
-  console.log('error');
-  
-});
-
-db.on('open', function() {
-  
-  console.log('open');
-  
-});*/
+    console.log('Connected to MongoDB at: %s', mongoURL);
+  });
+};
 
 app.use(function(err, req, res, next){
   console.error(err.stack);
@@ -62,8 +80,26 @@ app.use(function(err, req, res, next){
 });
 
 app.get('/', function(req, res) {
-  //res.send('OpenShift Mongo Node');
-  res.render('index.html', {});
+  if(!db) {
+    initDb(function(err) {
+      console.log(err);
+    });
+  }
+  
+  if(db) {
+    //res.send('OpenShift Mongo Node');
+    res.render('index.html', { pageCountMessage : null });
+  } else {
+    res.send(200);
+  }
+});
+
+app.get('/pagecount', function (req, res) {
+  res.send('page count dammy');
+});
+
+initDb(function(err) {
+  console.log('MongoDB problem: ' + err);
 });
 
 app.listen(port, ip);
